@@ -9,6 +9,7 @@ use Filament\Schemas\Schema;
 use Filament\Resources\Resource;
 use Filament\Tables;
 use Filament\Tables\Table;
+use Filament\Schemas\Components\Section;
 use Illuminate\Support\Str;
 
 class QuestionBankResource extends Resource
@@ -31,7 +32,7 @@ class QuestionBankResource extends Resource
     {
         return $schema
             ->schema([
-                Forms\Components\Section::make('Informasi Soal')
+                Section::make('Informasi Soal')
                     ->schema([
                         Forms\Components\Select::make('subject_id')
                             ->label('Mata Kuliah')
@@ -65,7 +66,7 @@ class QuestionBankResource extends Resource
                             ->default(true),
                     ])->columns(2),
 
-                Forms\Components\Section::make('Pertanyaan & Jawaban')
+                Section::make('Pertanyaan & Jawaban')
                     ->schema([
                         Forms\Components\Textarea::make('question')
                             ->label('Pertanyaan')

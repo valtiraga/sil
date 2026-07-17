@@ -9,6 +9,7 @@ use Filament\Schemas\Schema;
 use Filament\Resources\Resource;
 use Filament\Tables;
 use Filament\Tables\Table;
+use Filament\Schemas\Components\Section;
 
 class SubjectResource extends Resource
 {
@@ -30,7 +31,7 @@ class SubjectResource extends Resource
     {
         return $schema
             ->schema([
-                Forms\Components\Section::make('Informasi Mata Kuliah')
+                Section::make('Informasi Mata Kuliah')
                     ->schema([
                         Forms\Components\TextInput::make('code')
                             ->label('Kode MK')

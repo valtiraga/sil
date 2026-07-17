@@ -10,6 +10,7 @@ use Filament\Schemas\Schema;
 use Filament\Resources\Resource;
 use Filament\Tables;
 use Filament\Tables\Table;
+use Filament\Schemas\Components\Section;
 
 class StudentResource extends Resource
 {
@@ -31,7 +32,7 @@ class StudentResource extends Resource
     {
         return $schema
             ->schema([
-                Forms\Components\Section::make('Data Mahasiswa')
+                Section::make('Data Mahasiswa')
                     ->schema([
                         Forms\Components\TextInput::make('nim')
                             ->label('NIM')

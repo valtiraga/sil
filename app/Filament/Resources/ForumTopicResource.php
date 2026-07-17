@@ -10,6 +10,7 @@ use Filament\Schemas\Schema;
 use Filament\Resources\Resource;
 use Filament\Tables;
 use Filament\Tables\Table;
+use Filament\Schemas\Components\Section;
 
 class ForumTopicResource extends Resource
 {
@@ -31,7 +32,7 @@ class ForumTopicResource extends Resource
     {
         return $schema
             ->schema([
-                Forms\Components\Section::make('Topik Diskusi')
+                Section::make('Topik Diskusi')
                     ->schema([
                         Forms\Components\Select::make('subject_id')
                             ->label('Mata Kuliah')

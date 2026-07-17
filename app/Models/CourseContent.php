@@ -10,9 +10,8 @@ class CourseContent extends Model
     protected $fillable = [
         'course_id',
         'title',
-        'type',
+        'body',
         'file_path',
-        'description',
         'sort_order',
     ];
 

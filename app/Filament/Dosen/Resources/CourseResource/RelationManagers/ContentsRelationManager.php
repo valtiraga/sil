@@ -12,23 +12,32 @@ class ContentsRelationManager extends RelationManager
 {
     protected static string $relationship = 'contents';
 
-    protected static ?string $title = 'Konten Course';
+    public static function getTitle(\Illuminate\Database\Eloquent\Model $ownerRecord, string $pageClass): string
+    {
+        return __('course.contents');
+    }
 
-    protected static ?string $modelLabel = 'Konten';
+    public static function getModelLabel(): string
+    {
+        return __('course.content');
+    }
 
-    protected static ?string $pluralModelLabel = 'Konten';
+    public static function getPluralModelLabel(): string
+    {
+        return __('course.contents');
+    }
 
     public function form(Schema $schema): Schema
     {
         return $schema
             ->schema([
                 Forms\Components\TextInput::make('title')
-                    ->label('Judul')
+                    ->label(__('course.content_title'))
                     ->required()
                     ->maxLength(255),
 
                 Forms\Components\RichEditor::make('body')
-                    ->label('Isi Konten')
+                    ->label(__('course.content_body'))
                     ->toolbarButtons([
                         'attachFiles',
                         'blockquote',
@@ -47,15 +56,15 @@ class ContentsRelationManager extends RelationManager
                     ->columnSpanFull(),
 
                 Forms\Components\FileUpload::make('file_path')
-                    ->label('Lampiran File (Opsional)')
+                    ->label(__('course.content_attachment'))
                     ->directory('course-contents')
                     ->maxSize(51200)
                     ->acceptedFileTypes(['application/pdf'])
-                    ->helperText('Hanya mendukung file PDF.')
+                    ->helperText(__('course.content_attachment_help'))
                     ->columnSpanFull(),
 
                 Forms\Components\TextInput::make('sort_order')
-                    ->label('Urutan')
+                    ->label(__('course.content_order'))
                     ->numeric()
                     ->default(0),
             ]);
@@ -71,18 +80,18 @@ class ContentsRelationManager extends RelationManager
                     ->alignCenter(),
 
                 Tables\Columns\TextColumn::make('title')
-                    ->label('Judul')
+                    ->label(__('course.content_title'))
                     ->searchable(),
 
                 Tables\Columns\IconColumn::make('file_path')
-                    ->label('Lampiran')
+                    ->label(__('forum.attachment'))
                     ->boolean()
                     ->trueIcon('heroicon-o-document-text')
                     ->falseIcon('heroicon-o-minus')
                     ->getStateUsing(fn ($record): bool => !empty($record->file_path)),
 
                 Tables\Columns\TextColumn::make('created_at')
-                    ->label('Ditambahkan')
+                    ->label(__('course.added_at'))
                     ->dateTime('d M Y')
                     ->sortable(),
             ])

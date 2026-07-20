@@ -18,64 +18,76 @@ class QuestionBankResource extends Resource
 
     protected static string | \BackedEnum | null $navigationIcon = 'heroicon-o-question-mark-circle';
 
-    protected static string | \UnitEnum | null $navigationGroup = 'Pembelajaran';
-
-    protected static ?string $navigationLabel = 'Bank Soal';
-
-    protected static ?string $modelLabel = 'Soal';
-
-    protected static ?string $pluralModelLabel = 'Bank Soal';
-
     protected static ?int $navigationSort = 6;
+
+    public static function getNavigationGroup(): ?string
+    {
+        return __('nav.group.learning');
+    }
+
+    public static function getNavigationLabel(): string
+    {
+        return __('nav.question_bank');
+    }
+
+    public static function getModelLabel(): string
+    {
+        return __('nav.question_bank.label');
+    }
+
+    public static function getPluralModelLabel(): string
+    {
+        return __('nav.question_bank.plural');
+    }
 
     public static function form(Schema $schema): Schema
     {
         return $schema
             ->schema([
-                Section::make('Informasi Soal')
+                Section::make(__('question.section_info'))
                     ->schema([
                         Forms\Components\Select::make('subject_id')
-                            ->label('Mata Kuliah')
+                            ->label(__('common.subject'))
                             ->relationship('subject', 'name')
                             ->required()
                             ->searchable()
                             ->preload(),
 
                         Forms\Components\Select::make('question_type')
-                            ->label('Tipe Soal')
+                            ->label(__('question.type'))
                             ->options([
-                                'multiple_choice' => 'Pilihan Ganda',
-                                'essay' => 'Essay',
-                                'true_false' => 'Benar / Salah',
+                                'multiple_choice' => __('question.type_mc'),
+                                'essay' => __('question.type_essay'),
+                                'true_false' => __('question.type_tf'),
                             ])
                             ->required()
                             ->reactive(),
 
                         Forms\Components\Select::make('difficulty')
-                            ->label('Tingkat Kesulitan')
+                            ->label(__('question.difficulty'))
                             ->options([
-                                'easy' => 'Mudah',
-                                'medium' => 'Sedang',
-                                'hard' => 'Sulit',
+                                'easy' => __('question.diff_easy'),
+                                'medium' => __('question.diff_medium'),
+                                'hard' => __('question.diff_hard'),
                             ])
                             ->required()
                             ->default('medium'),
 
                         Forms\Components\Toggle::make('is_active')
-                            ->label('Aktif')
+                            ->label(__('common.active'))
                             ->default(true),
                     ])->columns(2),
 
-                Section::make('Pertanyaan & Jawaban')
+                Section::make(__('question.section_qa'))
                     ->schema([
                         Forms\Components\Textarea::make('question')
-                            ->label('Pertanyaan')
+                            ->label(__('question.text'))
                             ->required()
                             ->rows(3)
                             ->columnSpanFull(),
 
                         Forms\Components\Repeater::make('options')
-                            ->label('Opsi Jawaban')
+                            ->label(__('question.options'))
                             ->simple(
                                 Forms\Components\TextInput::make('option')
                                     ->required(),
@@ -87,13 +99,13 @@ class QuestionBankResource extends Resource
                             ->columnSpanFull(),
 
                         Forms\Components\Textarea::make('answer_key')
-                            ->label('Kunci Jawaban')
+                            ->label(__('question.answer_key'))
                             ->required()
                             ->rows(2)
                             ->helperText(fn ($get) => match ($get('question_type')) {
-                                'multiple_choice' => 'Masukkan teks jawaban yang benar (harus sama persis dengan salah satu opsi)',
-                                'true_false' => 'Masukkan: Benar atau Salah',
-                                'essay' => 'Masukkan kunci jawaban atau rubrik penilaian',
+                                'multiple_choice' => __('question.helper_mc'),
+                                'true_false' => __('question.helper_tf'),
+                                'essay' => __('question.helper_essay'),
                                 default => '',
                             })
                             ->columnSpanFull(),
@@ -106,16 +118,16 @@ class QuestionBankResource extends Resource
         return $table
             ->columns([
                 Tables\Columns\TextColumn::make('subject.name')
-                    ->label('Mata Kuliah')
+                    ->label(__('common.subject'))
                     ->sortable(),
 
                 Tables\Columns\TextColumn::make('question')
-                    ->label('Pertanyaan')
+                    ->label(__('question.text'))
                     ->limit(60)
                     ->searchable(),
 
                 Tables\Columns\TextColumn::make('question_type')
-                    ->label('Tipe')
+                    ->label(__('question.type_short'))
                     ->badge()
                     ->color(fn (string $state): string => match ($state) {
                         'multiple_choice' => 'info',
@@ -123,13 +135,13 @@ class QuestionBankResource extends Resource
                         'true_false' => 'success',
                     })
                     ->formatStateUsing(fn (string $state): string => match ($state) {
-                        'multiple_choice' => 'Pilihan Ganda',
-                        'essay' => 'Essay',
-                        'true_false' => 'Benar/Salah',
+                        'multiple_choice' => __('question.type_mc'),
+                        'essay' => __('question.type_essay'),
+                        'true_false' => __('question.type_tf'),
                     }),
 
                 Tables\Columns\TextColumn::make('difficulty')
-                    ->label('Kesulitan')
+                    ->label(__('question.difficulty_short'))
                     ->badge()
                     ->color(fn (string $state): string => match ($state) {
                         'easy' => 'success',
@@ -137,38 +149,38 @@ class QuestionBankResource extends Resource
                         'hard' => 'danger',
                     })
                     ->formatStateUsing(fn (string $state): string => match ($state) {
-                        'easy' => 'Mudah',
-                        'medium' => 'Sedang',
-                        'hard' => 'Sulit',
+                        'easy' => __('question.diff_easy'),
+                        'medium' => __('question.diff_medium'),
+                        'hard' => __('question.diff_hard'),
                     }),
 
                 Tables\Columns\TextColumn::make('creator.name')
-                    ->label('Pembuat')
+                    ->label(__('common.creator'))
                     ->sortable(),
 
                 Tables\Columns\IconColumn::make('is_active')
-                    ->label('Aktif')
+                    ->label(__('common.active'))
                     ->boolean(),
             ])
             ->filters([
                 Tables\Filters\SelectFilter::make('subject_id')
-                    ->label('Mata Kuliah')
+                    ->label(__('common.subject'))
                     ->relationship('subject', 'name'),
 
                 Tables\Filters\SelectFilter::make('question_type')
-                    ->label('Tipe Soal')
+                    ->label(__('question.type'))
                     ->options([
-                        'multiple_choice' => 'Pilihan Ganda',
-                        'essay' => 'Essay',
-                        'true_false' => 'Benar/Salah',
+                        'multiple_choice' => __('question.type_mc'),
+                        'essay' => __('question.type_essay'),
+                        'true_false' => __('question.type_tf'),
                     ]),
 
                 Tables\Filters\SelectFilter::make('difficulty')
-                    ->label('Kesulitan')
+                    ->label(__('question.difficulty_short'))
                     ->options([
-                        'easy' => 'Mudah',
-                        'medium' => 'Sedang',
-                        'hard' => 'Sulit',
+                        'easy' => __('question.diff_easy'),
+                        'medium' => __('question.diff_medium'),
+                        'hard' => __('question.diff_hard'),
                     ]),
             ])
             ->actions([

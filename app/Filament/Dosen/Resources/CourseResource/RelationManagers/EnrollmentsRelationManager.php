@@ -13,11 +13,20 @@ class EnrollmentsRelationManager extends RelationManager
 {
     protected static string $relationship = 'enrollments';
 
-    protected static ?string $title = 'Mahasiswa Terdaftar';
+    public static function getTitle(\Illuminate\Database\Eloquent\Model $ownerRecord, string $pageClass): string
+    {
+        return __('course.enrolled_students');
+    }
 
-    protected static ?string $modelLabel = 'Mahasiswa';
-    
-    protected static ?string $pluralModelLabel = 'Mahasiswa';
+    public static function getModelLabel(): string
+    {
+        return __('course.student');
+    }
+
+    public static function getPluralModelLabel(): string
+    {
+        return __('course.students');
+    }
 
     public function form(Schema $schema): Schema
     {
@@ -32,31 +41,31 @@ class EnrollmentsRelationManager extends RelationManager
         return $table
             ->columns([
                 Tables\Columns\TextColumn::make('student.nim')
-                    ->label('NIM')
+                    ->label(__('student.nim'))
                     ->searchable()
                     ->sortable(),
 
                 Tables\Columns\TextColumn::make('student.full_name')
-                    ->label('Nama Lengkap')
+                    ->label(__('common.full_name'))
                     ->searchable()
                     ->sortable(),
                     
                 Tables\Columns\TextColumn::make('student.department.name')
-                    ->label('Jurusan')
+                    ->label(__('common.department'))
                     ->sortable(),
 
                 Tables\Columns\TextColumn::make('enrolled_at')
-                    ->label('Tgl Enroll')
+                    ->label(__('course.enroll_date'))
                     ->dateTime('d M Y')
                     ->sortable(),
                     
                 Tables\Columns\TextColumn::make('progress')
-                    ->label('Progress (%)')
+                    ->label(__('course.progress'))
                     ->numeric()
                     ->sortable(),
                     
                 Tables\Columns\TextColumn::make('final_grade')
-                    ->label('Nilai Akhir')
+                    ->label(__('course.final_grade'))
                     ->numeric()
                     ->sortable(),
             ])
@@ -65,11 +74,11 @@ class EnrollmentsRelationManager extends RelationManager
             ])
             ->headerActions([
                 \Filament\Actions\Action::make('enroll')
-                    ->label('Enroll Mahasiswa')
-                    ->modalHeading('Enroll Mahasiswa ke Course')
+                    ->label(__('course.enroll_student'))
+                    ->modalHeading(__('course.enroll_student_modal'))
                     ->form([
                         Forms\Components\Select::make('student_id')
-                            ->label('Mahasiswa')
+                            ->label(__('course.student'))
                             ->multiple()
                             ->options(function (RelationManager $livewire) {
                                 $enrolledIds = $livewire->getOwnerRecord()->enrollments()->pluck('student_id')->toArray();
@@ -92,8 +101,8 @@ class EnrollmentsRelationManager extends RelationManager
             ])
             ->actions([
                 \Filament\Actions\DeleteAction::make()
-                    ->label('Hapus Akses')
-                    ->modalHeading('Hapus Enrollment Mahasiswa'),
+                    ->label(__('course.remove_access'))
+                    ->modalHeading(__('course.remove_enrollment_modal')),
             ])
             ->bulkActions([
                 \Filament\Actions\BulkActionGroup::make([

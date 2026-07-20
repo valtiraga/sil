@@ -19,6 +19,11 @@ class AppServiceProvider extends ServiceProvider
      */
     public function boot(): void
     {
-        //
+        \BezhanSalleh\LanguageSwitch\LanguageSwitch::configureUsing(function (\BezhanSalleh\LanguageSwitch\LanguageSwitch $switch) {
+            $switch
+                ->locales(['id', 'en'])
+                ->visible(insidePanels: true, outsidePanels: true)
+                ->excludes(['admin']);
+        });
     }
 }

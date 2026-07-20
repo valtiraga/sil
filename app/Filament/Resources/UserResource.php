@@ -17,36 +17,48 @@ class UserResource extends Resource
 
     protected static string | \BackedEnum | null $navigationIcon = 'heroicon-o-users';
 
-    protected static string | \UnitEnum | null $navigationGroup = 'Data Master';
-
-    protected static ?string $navigationLabel = 'Data User';
-
-    protected static ?string $modelLabel = 'User';
-
-    protected static ?string $pluralModelLabel = 'User';
-
     protected static ?int $navigationSort = 2;
+
+    public static function getNavigationGroup(): ?string
+    {
+        return __('nav.group.data_master');
+    }
+
+    public static function getNavigationLabel(): string
+    {
+        return __('nav.user');
+    }
+
+    public static function getModelLabel(): string
+    {
+        return __('nav.user.label');
+    }
+
+    public static function getPluralModelLabel(): string
+    {
+        return __('nav.user.plural');
+    }
 
     public static function form(Schema $schema): Schema
     {
         return $schema
             ->schema([
-                Section::make('Informasi Akun')
+                Section::make(__('user.section_info'))
                     ->schema([
                         Forms\Components\TextInput::make('name')
-                            ->label('Nama Lengkap')
+                            ->label(__('common.full_name'))
                             ->required()
                             ->maxLength(255),
 
                         Forms\Components\TextInput::make('email')
-                            ->label('Email')
+                            ->label(__('common.email'))
                             ->email()
                             ->required()
                             ->unique(ignoreRecord: true)
                             ->maxLength(255),
 
                         Forms\Components\TextInput::make('password')
-                            ->label('Password')
+                            ->label(__('common.password'))
                             ->password()
                             ->required(fn (string $operation): bool => $operation === 'create')
                             ->dehydrated(fn (?string $state) => filled($state))
@@ -54,17 +66,17 @@ class UserResource extends Resource
                             ->maxLength(255),
 
                         Forms\Components\Select::make('role')
-                            ->label('Role')
+                            ->label(__('common.role'))
                             ->options([
                                 'admin' => 'Admin',
-                                'dosen' => 'Dosen',
-                                'mahasiswa' => 'Mahasiswa',
+                                'dosen' => __('common.role_lecturer'),
+                                'mahasiswa' => __('common.role_student'),
                             ])
                             ->required()
                             ->default('admin'),
 
                         Forms\Components\Toggle::make('is_active')
-                            ->label('Status Aktif')
+                            ->label(__('common.active_status'))
                             ->default(true),
                     ])->columns(2),
             ]);
@@ -75,17 +87,17 @@ class UserResource extends Resource
         return $table
             ->columns([
                 Tables\Columns\TextColumn::make('name')
-                    ->label('Nama')
+                    ->label(__('common.name'))
                     ->searchable()
                     ->sortable(),
 
                 Tables\Columns\TextColumn::make('email')
-                    ->label('Email')
+                    ->label(__('common.email'))
                     ->searchable()
                     ->sortable(),
 
                 Tables\Columns\TextColumn::make('role')
-                    ->label('Role')
+                    ->label(__('common.role'))
                     ->badge()
                     ->color(fn (string $state): string => match ($state) {
                         'admin' => 'danger',
@@ -95,32 +107,32 @@ class UserResource extends Resource
                     ->sortable(),
 
                 Tables\Columns\IconColumn::make('is_active')
-                    ->label('Aktif')
+                    ->label(__('common.active'))
                     ->boolean(),
 
                 Tables\Columns\TextColumn::make('last_login_at')
-                    ->label('Login Terakhir')
+                    ->label(__('user.last_login'))
                     ->dateTime('d M Y H:i')
                     ->sortable()
-                    ->placeholder('Belum pernah login'),
+                    ->placeholder(__('user.never_logged_in')),
 
                 Tables\Columns\TextColumn::make('created_at')
-                    ->label('Dibuat')
+                    ->label(__('common.created_at'))
                     ->dateTime('d M Y')
                     ->sortable()
                     ->toggleable(isToggledHiddenByDefault: true),
             ])
             ->filters([
                 Tables\Filters\SelectFilter::make('role')
-                    ->label('Role')
+                    ->label(__('common.role'))
                     ->options([
                         'admin' => 'Admin',
-                        'dosen' => 'Dosen',
-                        'mahasiswa' => 'Mahasiswa',
+                        'dosen' => __('common.role_lecturer'),
+                        'mahasiswa' => __('common.role_student'),
                     ]),
 
                 Tables\Filters\TernaryFilter::make('is_active')
-                    ->label('Status Aktif'),
+                    ->label(__('common.active_status')),
             ])
             ->actions([
                 \Filament\Actions\EditAction::make(),

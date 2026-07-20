@@ -17,42 +17,54 @@ class SubjectResource extends Resource
 
     protected static string | \BackedEnum | null $navigationIcon = 'heroicon-o-book-open';
 
-    protected static string | \UnitEnum | null $navigationGroup = 'Data Master';
-
-    protected static ?string $navigationLabel = 'Mata Kuliah';
-
-    protected static ?string $modelLabel = 'Mata Kuliah';
-
-    protected static ?string $pluralModelLabel = 'Mata Kuliah';
-
     protected static ?int $navigationSort = 4;
+
+    public static function getNavigationGroup(): ?string
+    {
+        return __('nav.group.data_master');
+    }
+
+    public static function getNavigationLabel(): string
+    {
+        return __('nav.subject');
+    }
+
+    public static function getModelLabel(): string
+    {
+        return __('nav.subject.label');
+    }
+
+    public static function getPluralModelLabel(): string
+    {
+        return __('nav.subject.plural');
+    }
 
     public static function form(Schema $schema): Schema
     {
         return $schema
             ->schema([
-                Section::make('Informasi Mata Kuliah')
+                Section::make(__('subject.section_info'))
                     ->schema([
                         Forms\Components\TextInput::make('code')
-                            ->label('Kode MK')
+                            ->label(__('subject.code'))
                             ->required()
                             ->unique(ignoreRecord: true)
                             ->maxLength(20),
 
                         Forms\Components\TextInput::make('name')
-                            ->label('Nama Mata Kuliah')
+                            ->label(__('subject.name'))
                             ->required()
                             ->maxLength(255),
 
                         Forms\Components\Select::make('department_id')
-                            ->label('Jurusan')
+                            ->label(__('common.department'))
                             ->relationship('department', 'name')
                             ->required()
                             ->searchable()
                             ->preload(),
 
                         Forms\Components\TextInput::make('credits')
-                            ->label('SKS')
+                            ->label(__('subject.credits'))
                             ->numeric()
                             ->required()
                             ->default(2)
@@ -60,18 +72,18 @@ class SubjectResource extends Resource
                             ->maxValue(6),
 
                         Forms\Components\TextInput::make('semester')
-                            ->label('Semester')
+                            ->label(__('common.semester'))
                             ->numeric()
                             ->required()
                             ->minValue(1)
                             ->maxValue(8),
 
                         Forms\Components\Toggle::make('is_active')
-                            ->label('Status Aktif')
+                            ->label(__('common.active_status'))
                             ->default(true),
 
                         Forms\Components\Textarea::make('description')
-                            ->label('Deskripsi')
+                            ->label(__('common.description'))
                             ->rows(3)
                             ->columnSpanFull(),
                     ])->columns(2),
@@ -83,50 +95,50 @@ class SubjectResource extends Resource
         return $table
             ->columns([
                 Tables\Columns\TextColumn::make('code')
-                    ->label('Kode')
+                    ->label(__('common.code'))
                     ->searchable()
                     ->sortable(),
 
                 Tables\Columns\TextColumn::make('name')
-                    ->label('Nama Mata Kuliah')
+                    ->label(__('subject.name'))
                     ->searchable()
                     ->sortable(),
 
                 Tables\Columns\TextColumn::make('department.name')
-                    ->label('Jurusan')
+                    ->label(__('common.department'))
                     ->sortable(),
 
                 Tables\Columns\TextColumn::make('credits')
-                    ->label('SKS')
+                    ->label(__('subject.credits'))
                     ->sortable()
                     ->alignCenter(),
 
                 Tables\Columns\TextColumn::make('semester')
-                    ->label('Semester')
+                    ->label(__('common.semester'))
                     ->sortable()
                     ->alignCenter(),
 
                 Tables\Columns\TextColumn::make('courses_count')
-                    ->label('Jml Course')
+                    ->label(__('subject.course_count'))
                     ->counts('courses')
                     ->sortable()
                     ->alignCenter(),
 
                 Tables\Columns\IconColumn::make('is_active')
-                    ->label('Aktif')
+                    ->label(__('common.active'))
                     ->boolean(),
             ])
             ->filters([
                 Tables\Filters\SelectFilter::make('department_id')
-                    ->label('Jurusan')
+                    ->label(__('common.department'))
                     ->relationship('department', 'name'),
 
                 Tables\Filters\SelectFilter::make('semester')
-                    ->label('Semester')
+                    ->label(__('common.semester'))
                     ->options(array_combine(range(1, 8), range(1, 8))),
 
                 Tables\Filters\TernaryFilter::make('is_active')
-                    ->label('Status Aktif'),
+                    ->label(__('common.active_status')),
             ])
             ->actions([
                 \Filament\Actions\EditAction::make(),

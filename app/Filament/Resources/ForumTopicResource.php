@@ -18,45 +18,57 @@ class ForumTopicResource extends Resource
 
     protected static string | \BackedEnum | null $navigationIcon = 'heroicon-o-chat-bubble-left-right';
 
-    protected static string | \UnitEnum | null $navigationGroup = 'Pembelajaran';
-
-    protected static ?string $navigationLabel = 'Forum Diskusi';
-
-    protected static ?string $modelLabel = 'Topik Forum';
-
-    protected static ?string $pluralModelLabel = 'Forum Diskusi';
-
     protected static ?int $navigationSort = 7;
+
+    public static function getNavigationGroup(): ?string
+    {
+        return __('nav.group.learning');
+    }
+
+    public static function getNavigationLabel(): string
+    {
+        return __('nav.forum');
+    }
+
+    public static function getModelLabel(): string
+    {
+        return __('nav.forum.label');
+    }
+
+    public static function getPluralModelLabel(): string
+    {
+        return __('nav.forum.plural');
+    }
 
     public static function form(Schema $schema): Schema
     {
         return $schema
             ->schema([
-                Section::make('Topik Diskusi')
+                Section::make(__('forum.section_topic'))
                     ->schema([
                         Forms\Components\Select::make('subject_id')
-                            ->label('Mata Kuliah')
+                            ->label(__('common.subject'))
                             ->relationship('subject', 'name')
                             ->required()
                             ->searchable()
                             ->preload(),
 
                         Forms\Components\TextInput::make('title')
-                            ->label('Judul Topik')
+                            ->label(__('forum.title'))
                             ->required()
                             ->maxLength(500),
 
                         Forms\Components\Textarea::make('body')
-                            ->label('Isi')
+                            ->label(__('forum.body'))
                             ->required()
                             ->rows(5)
                             ->columnSpanFull(),
 
                         Forms\Components\Toggle::make('is_pinned')
-                            ->label('Sematkan (Pin)'),
+                            ->label(__('forum.pin')),
 
                         Forms\Components\Toggle::make('is_locked')
-                            ->label('Kunci Topik'),
+                            ->label(__('forum.lock')),
                     ])->columns(2),
             ]);
     }
@@ -66,63 +78,63 @@ class ForumTopicResource extends Resource
         return $table
             ->columns([
                 Tables\Columns\TextColumn::make('title')
-                    ->label('Judul')
+                    ->label(__('forum.title_short'))
                     ->searchable()
                     ->sortable()
                     ->limit(50),
 
                 Tables\Columns\TextColumn::make('subject.name')
-                    ->label('Mata Kuliah')
+                    ->label(__('common.subject'))
                     ->sortable(),
 
                 Tables\Columns\TextColumn::make('user.name')
-                    ->label('Pembuat')
+                    ->label(__('common.creator'))
                     ->sortable(),
 
                 Tables\Columns\TextColumn::make('replies_count')
-                    ->label('Balasan')
+                    ->label(__('forum.replies'))
                     ->counts('replies')
                     ->sortable()
                     ->alignCenter(),
 
                 Tables\Columns\TextColumn::make('views_count')
-                    ->label('Views')
+                    ->label(__('forum.views'))
                     ->sortable()
                     ->alignCenter(),
 
                 Tables\Columns\IconColumn::make('is_pinned')
-                    ->label('Pin')
+                    ->label(__('forum.pin_label'))
                     ->boolean(),
 
                 Tables\Columns\IconColumn::make('is_locked')
-                    ->label('Locked')
+                    ->label(__('forum.locked'))
                     ->boolean(),
 
                 Tables\Columns\TextColumn::make('created_at')
-                    ->label('Dibuat')
+                    ->label(__('common.created_at'))
                     ->dateTime('d M Y H:i')
                     ->sortable(),
             ])
             ->defaultSort('created_at', 'desc')
             ->filters([
                 Tables\Filters\SelectFilter::make('subject_id')
-                    ->label('Mata Kuliah')
+                    ->label(__('common.subject'))
                     ->relationship('subject', 'name'),
 
                 Tables\Filters\TernaryFilter::make('is_pinned')
-                    ->label('Disematkan'),
+                    ->label(__('forum.pinned')),
 
                 Tables\Filters\TernaryFilter::make('is_locked')
-                    ->label('Dikunci'),
+                    ->label(__('forum.locked')),
             ])
             ->actions([
                 \Filament\Actions\Action::make('togglePin')
-                    ->label(fn ($record) => $record->is_pinned ? 'Unpin' : 'Pin')
+                    ->label(fn ($record) => $record->is_pinned ? __('forum.unpin') : __('forum.pin_action'))
                     ->icon(fn ($record) => $record->is_pinned ? 'heroicon-o-x-mark' : 'heroicon-o-bookmark')
                     ->action(fn ($record) => $record->update(['is_pinned' => !$record->is_pinned]))
                     ->color('warning'),
                 \Filament\Actions\Action::make('toggleLock')
-                    ->label(fn ($record) => $record->is_locked ? 'Unlock' : 'Lock')
+                    ->label(fn ($record) => $record->is_locked ? __('forum.unlock') : __('forum.lock_action'))
                     ->icon(fn ($record) => $record->is_locked ? 'heroicon-o-lock-open' : 'heroicon-o-lock-closed')
                     ->action(fn ($record) => $record->update(['is_locked' => !$record->is_locked]))
                     ->color('danger'),

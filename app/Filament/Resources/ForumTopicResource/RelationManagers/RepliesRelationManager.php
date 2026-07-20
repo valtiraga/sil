@@ -12,22 +12,33 @@ class RepliesRelationManager extends RelationManager
 {
     protected static string $relationship = 'replies';
 
-    protected static ?string $title = 'Balasan';
+    public static function getTitle(\Illuminate\Database\Eloquent\Model $ownerRecord, string $pageClass): string
+    {
+        return __('forum.replies');
+    }
 
-    protected static ?string $modelLabel = 'Balasan';
+    public static function getModelLabel(): string
+    {
+        return __('forum.reply');
+    }
+
+    public static function getPluralModelLabel(): string
+    {
+        return __('forum.replies');
+    }
 
     public function form(Schema $schema): Schema
     {
         return $schema
             ->schema([
                 Forms\Components\Textarea::make('body')
-                    ->label('Isi Balasan')
+                    ->label(__('forum.reply_body'))
                     ->required()
                     ->rows(3)
                     ->columnSpanFull(),
 
                 Forms\Components\FileUpload::make('attachment')
-                    ->label('Lampiran')
+                    ->label(__('forum.attachment'))
                     ->directory('forum-attachments')
                     ->maxSize(5120)
                     ->columnSpanFull(),
@@ -39,14 +50,14 @@ class RepliesRelationManager extends RelationManager
         return $table
             ->columns([
                 Tables\Columns\TextColumn::make('user.name')
-                    ->label('Penulis'),
+                    ->label(__('forum.author')),
 
                 Tables\Columns\TextColumn::make('body')
-                    ->label('Isi Balasan')
+                    ->label(__('forum.reply_body'))
                     ->limit(80),
 
                 Tables\Columns\TextColumn::make('created_at')
-                    ->label('Waktu')
+                    ->label(__('common.time'))
                     ->dateTime('d M Y H:i')
                     ->sortable(),
             ])

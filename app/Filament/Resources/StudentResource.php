@@ -18,52 +18,64 @@ class StudentResource extends Resource
 
     protected static string | \BackedEnum | null $navigationIcon = 'heroicon-o-academic-cap';
 
-    protected static string | \UnitEnum | null $navigationGroup = 'Data Master';
-
-    protected static ?string $navigationLabel = 'Mahasiswa';
-
-    protected static ?string $modelLabel = 'Mahasiswa';
-
-    protected static ?string $pluralModelLabel = 'Mahasiswa';
-
     protected static ?int $navigationSort = 3;
+
+    public static function getNavigationGroup(): ?string
+    {
+        return __('nav.group.data_master');
+    }
+
+    public static function getNavigationLabel(): string
+    {
+        return __('nav.student');
+    }
+
+    public static function getModelLabel(): string
+    {
+        return __('nav.student.label');
+    }
+
+    public static function getPluralModelLabel(): string
+    {
+        return __('nav.student.plural');
+    }
 
     public static function form(Schema $schema): Schema
     {
         return $schema
             ->schema([
-                Section::make('Data Mahasiswa')
+                Section::make(__('student.section_info'))
                     ->schema([
                         Forms\Components\TextInput::make('nim')
-                            ->label('NIM')
+                            ->label(__('student.nim'))
                             ->required()
                             ->unique(ignoreRecord: true)
                             ->maxLength(20),
 
                         Forms\Components\TextInput::make('full_name')
-                            ->label('Nama Lengkap')
+                            ->label(__('common.full_name'))
                             ->required()
                             ->maxLength(255),
 
                         Forms\Components\TextInput::make('email')
-                            ->label('Email')
+                            ->label(__('common.email'))
                             ->email()
                             ->maxLength(255),
 
                         Forms\Components\TextInput::make('phone')
-                            ->label('No. Telepon')
+                            ->label(__('student.phone'))
                             ->tel()
                             ->maxLength(20),
 
                         Forms\Components\Select::make('department_id')
-                            ->label('Jurusan')
+                            ->label(__('common.department'))
                             ->relationship('department', 'name')
                             ->required()
                             ->searchable()
                             ->preload(),
 
                         Forms\Components\TextInput::make('enrollment_year')
-                            ->label('Angkatan')
+                            ->label(__('student.enrollment_year'))
                             ->numeric()
                             ->required()
                             ->default(date('Y'))
@@ -71,7 +83,7 @@ class StudentResource extends Resource
                             ->maxValue(2099),
 
                         Forms\Components\TextInput::make('current_semester')
-                            ->label('Semester Aktif')
+                            ->label(__('student.active_semester'))
                             ->numeric()
                             ->required()
                             ->default(1)
@@ -79,18 +91,18 @@ class StudentResource extends Resource
                             ->maxValue(14),
 
                         Forms\Components\Select::make('status')
-                            ->label('Status')
+                            ->label(__('common.status'))
                             ->options([
-                                'active' => 'Aktif',
-                                'on_leave' => 'Cuti',
-                                'graduated' => 'Lulus',
-                                'dropped_out' => 'Drop Out',
+                                'active' => __('student.status_active'),
+                                'on_leave' => __('student.status_leave'),
+                                'graduated' => __('student.status_graduated'),
+                                'dropped_out' => __('student.status_dropped'),
                             ])
                             ->required()
                             ->default('active'),
 
                         Forms\Components\FileUpload::make('profile_photo')
-                            ->label('Foto Profil')
+                            ->label(__('student.profile_photo'))
                             ->image()
                             ->directory('students/photos')
                             ->maxSize(2048)
@@ -104,29 +116,29 @@ class StudentResource extends Resource
         return $table
             ->columns([
                 Tables\Columns\TextColumn::make('nim')
-                    ->label('NIM')
+                    ->label(__('student.nim'))
                     ->searchable()
                     ->sortable(),
 
                 Tables\Columns\TextColumn::make('full_name')
-                    ->label('Nama')
+                    ->label(__('common.name'))
                     ->searchable()
                     ->sortable(),
 
                 Tables\Columns\TextColumn::make('department.name')
-                    ->label('Jurusan')
+                    ->label(__('common.department'))
                     ->sortable(),
 
                 Tables\Columns\TextColumn::make('enrollment_year')
-                    ->label('Angkatan')
+                    ->label(__('student.enrollment_year'))
                     ->sortable(),
 
                 Tables\Columns\TextColumn::make('current_semester')
-                    ->label('Semester')
+                    ->label(__('common.semester'))
                     ->sortable(),
 
                 Tables\Columns\TextColumn::make('status')
-                    ->label('Status')
+                    ->label(__('common.status'))
                     ->badge()
                     ->color(fn (string $state): string => match ($state) {
                         'active' => 'success',
@@ -135,34 +147,34 @@ class StudentResource extends Resource
                         'dropped_out' => 'danger',
                     })
                     ->formatStateUsing(fn (string $state): string => match ($state) {
-                        'active' => 'Aktif',
-                        'on_leave' => 'Cuti',
-                        'graduated' => 'Lulus',
-                        'dropped_out' => 'Drop Out',
+                        'active' => __('student.status_active'),
+                        'on_leave' => __('student.status_leave'),
+                        'graduated' => __('student.status_graduated'),
+                        'dropped_out' => __('student.status_dropped'),
                     }),
 
                 Tables\Columns\TextColumn::make('created_at')
-                    ->label('Dibuat')
+                    ->label(__('common.created_at'))
                     ->dateTime('d M Y')
                     ->sortable()
                     ->toggleable(isToggledHiddenByDefault: true),
             ])
             ->filters([
                 Tables\Filters\SelectFilter::make('department_id')
-                    ->label('Jurusan')
+                    ->label(__('common.department'))
                     ->relationship('department', 'name'),
 
                 Tables\Filters\SelectFilter::make('status')
-                    ->label('Status')
+                    ->label(__('common.status'))
                     ->options([
-                        'active' => 'Aktif',
-                        'on_leave' => 'Cuti',
-                        'graduated' => 'Lulus',
-                        'dropped_out' => 'Drop Out',
+                        'active' => __('student.status_active'),
+                        'on_leave' => __('student.status_leave'),
+                        'graduated' => __('student.status_graduated'),
+                        'dropped_out' => __('student.status_dropped'),
                     ]),
 
                 Tables\Filters\SelectFilter::make('enrollment_year')
-                    ->label('Angkatan')
+                    ->label(__('student.enrollment_year'))
                     ->options(fn () => Student::query()
                         ->distinct()
                         ->orderByDesc('enrollment_year')

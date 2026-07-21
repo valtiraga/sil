@@ -10,7 +10,7 @@ class AuthController extends Controller
     public function index()
     {
         if (Auth::check()) {
-            return $this->redirectBasedOnRole(Auth::user()->role);
+            return $this->redirectBasedOnRole(Auth::user());
         }
         
         return view('auth.login');
@@ -39,7 +39,7 @@ class AuthController extends Controller
         if ($user && Auth::attempt(['email' => $user->email, 'password' => $credentials['password']])) {
             $request->session()->regenerate();
             
-            return $this->redirectBasedOnRole(Auth::user()->role);
+            return $this->redirectBasedOnRole(Auth::user());
         }
 
         return back()->withErrors([
@@ -57,17 +57,17 @@ class AuthController extends Controller
         return redirect('/login');
     }
 
-    private function redirectBasedOnRole($role)
+    private function redirectBasedOnRole($user)
     {
-        if ($role === 'admin') {
+        if ($user->isAdmin()) {
             return redirect()->intended('/admin');
         }
         
-        if ($role === 'dosen') {
+        if ($user->isDosen()) {
             return redirect()->intended('/dosen');
         }
         
-        if ($role === 'mahasiswa') {
+        if ($user->isMahasiswa()) {
             return redirect()->intended('/mahasiswa');
         }
 

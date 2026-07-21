@@ -56,9 +56,9 @@ class SubjectResource extends Resource
                             ->required()
                             ->maxLength(255),
 
-                        Forms\Components\Select::make('department_id')
-                            ->label(__('common.department'))
-                            ->relationship('department', 'name')
+                        Forms\Components\Select::make('study_program_id')
+                            ->label(__('common.study_program'))
+                            ->relationship('studyProgram', 'name')
                             ->required()
                             ->searchable()
                             ->preload(),
@@ -104,8 +104,8 @@ class SubjectResource extends Resource
                     ->searchable()
                     ->sortable(),
 
-                Tables\Columns\TextColumn::make('department.name')
-                    ->label(__('common.department'))
+                Tables\Columns\TextColumn::make('studyProgram.name')
+                    ->label(__('common.study_program'))
                     ->sortable(),
 
                 Tables\Columns\TextColumn::make('credits')
@@ -129,9 +129,9 @@ class SubjectResource extends Resource
                     ->boolean(),
             ])
             ->filters([
-                Tables\Filters\SelectFilter::make('department_id')
-                    ->label(__('common.department'))
-                    ->relationship('department', 'name'),
+                Tables\Filters\SelectFilter::make('study_program_id')
+                    ->label(__('common.study_program'))
+                    ->relationship('studyProgram', 'name'),
 
                 Tables\Filters\SelectFilter::make('semester')
                     ->label(__('common.semester'))

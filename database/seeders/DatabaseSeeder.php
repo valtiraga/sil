@@ -13,57 +13,62 @@ class DatabaseSeeder extends Seeder
      */
     public function run(): void
     {
+        \Spatie\Permission\Models\Role::firstOrCreate(['name' => 'super_admin']);
+        \Spatie\Permission\Models\Role::firstOrCreate(['name' => 'admin']);
+        \Spatie\Permission\Models\Role::firstOrCreate(['name' => 'dosen']);
+        \Spatie\Permission\Models\Role::firstOrCreate(['name' => 'mahasiswa']);
+
         // ─── Admin Account ────────────────────────────────
-        User::create([
+        $admin = User::create([
             'name' => 'Administrator',
             'email' => 'admin@politeknikapp.ac.id',
             'password' => Hash::make('password'),
-            'role' => 'admin',
             'is_active' => true,
         ]);
+        $admin->assignRole('super_admin');
 
         // ─── Dosen Account ────────────────────────────────
         $dosen1 = User::create([
             'name' => 'Dr. Budi Santoso',
             'email' => 'budi.santoso@politeknikapp.ac.id',
             'password' => Hash::make('password'),
-            'role' => 'dosen',
             'is_active' => true,
         ]);
+        $dosen1->assignRole('dosen');
 
         $dosen2 = User::create([
             'name' => 'Dr. Siti Aminah',
             'email' => 'siti.aminah@politeknikapp.ac.id',
             'password' => Hash::make('password'),
-            'role' => 'dosen',
+            'is_active' => true,
+        ]);
+        $dosen2->assignRole('dosen');
+
+        // ─── Study Programs ───────────────────────────────
+        $mpieDept = \App\Models\StudyProgram::create([
+            'code' => 'MPIE',
+            'name' => 'Manajemen Pemasaran Industri Elektronika',
+            'head_of_study_program' => 'Dr. Budi Santoso',
             'is_active' => true,
         ]);
 
-        // ─── Departments ──────────────────────────────────
-        $tiDept = \App\Models\Department::create([
-            'code' => 'TI',
-            'name' => 'Teknik Informatika',
-            'head_of_department' => 'Dr. Budi Santoso',
+        $mlieDept = \App\Models\StudyProgram::create([
+            'code' => 'MLIE',
+            'name' => 'Manajemen Logistik Industri Elektronika',
+            'head_of_study_program' => 'Dr. Siti Aminah',
             'is_active' => true,
         ]);
 
-        $miDept = \App\Models\Department::create([
-            'code' => 'MI',
-            'name' => 'Manajemen Informatika',
-            'head_of_department' => 'Dr. Siti Aminah',
-            'is_active' => true,
-        ]);
-
-        $ppDept = \App\Models\Department::create([
-            'code' => 'PP',
-            'name' => 'Perdagangan dan Pemasaran',
-            'head_of_department' => null,
+        $piwarDept = \App\Models\StudyProgram::create([
+            'code' => 'PIWAR',
+            'name' => 'Perdagangan Internasional Wilayah Asean dan RRT',
+            'head_of_study_program' => null,
             'is_active' => true,
         ]);
 
         // ─── Subjects ─────────────────────────────────────
         $pemweb = \App\Models\Subject::create([
-            'department_id' => $tiDept->id,
+            'study_program_id' => $mpieDept->id,
             'code' => 'TI201',
             'name' => 'Pemrograman Web',
             'credits' => 3,
@@ -73,7 +78,7 @@ class DatabaseSeeder extends Seeder
         ]);
 
         $basis = \App\Models\Subject::create([
-            'department_id' => $tiDept->id,
+            'study_program_id' => $mpieDept->id,
             'code' => 'TI202',
             'name' => 'Basis Data',
             'credits' => 3,
@@ -83,7 +88,7 @@ class DatabaseSeeder extends Seeder
         ]);
 
         $siMk = \App\Models\Subject::create([
-            'department_id' => $miDept->id,
+            'study_program_id' => $mlieDept->id,
             'code' => 'MI101',
             'name' => 'Sistem Informasi Manajemen',
             'credits' => 3,
@@ -128,13 +133,13 @@ class DatabaseSeeder extends Seeder
             'name' => 'Ahmad Rizky',
             'email' => '2026001@student.politeknikapp.ac.id',
             'password' => Hash::make('2026001'),
-            'role' => 'mahasiswa',
             'is_active' => true,
         ]);
+        $mhsUser1->assignRole('mahasiswa');
 
         $mhs1 = \App\Models\Student::create([
             'user_id' => $mhsUser1->id,
-            'department_id' => $tiDept->id,
+            'study_program_id' => $mpieDept->id,
             'nim' => '2026001',
             'full_name' => 'Ahmad Rizky',
             'email' => '2026001@student.politeknikapp.ac.id',
@@ -148,13 +153,13 @@ class DatabaseSeeder extends Seeder
             'name' => 'Dewi Safitri',
             'email' => '2026002@student.politeknikapp.ac.id',
             'password' => Hash::make('2026002'),
-            'role' => 'mahasiswa',
             'is_active' => true,
         ]);
+        $mhsUser2->assignRole('mahasiswa');
 
         $mhs2 = \App\Models\Student::create([
             'user_id' => $mhsUser2->id,
-            'department_id' => $tiDept->id,
+            'study_program_id' => $mpieDept->id,
             'nim' => '2026002',
             'full_name' => 'Dewi Safitri',
             'email' => '2026002@student.politeknikapp.ac.id',

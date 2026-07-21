@@ -213,9 +213,9 @@ erDiagram
 
 | Konsep (Bahasa Indonesia) | Nama Tabel (English) | Keterangan |
 |---------------------------|---------------------|------------|
-| Jurusan | `departments` | Program studi / jurusan |
+| Prodi | `departments` | Program studi / Prodi |
 | Mahasiswa | `students` | Data profil mahasiswa |
-| Mata Kuliah | `subjects` | Mata kuliah per jurusan |
+| Mata Kuliah | `subjects` | Mata kuliah per Prodi |
 | Course | `courses` | Kelas e-learning (di-assign ke dosen) |
 | Konten Course | `course_contents` | Modul PDF & Video |
 | Enrollment | `enrollments` | Pendaftaran mahasiswa ke course |
@@ -236,7 +236,7 @@ erDiagram
 | 1 | [create_users_table.php](file:///v:/laragon/laragon/www/sil/database/migrations/0001_01_01_000000_create_users_table.php) | `users`, `password_reset_tokens`, `sessions` | Tabel user inti + autentikasi + sesi |
 | 2 | [create_cache_table.php](file:///v:/laragon/laragon/www/sil/database/migrations/0001_01_01_000001_create_cache_table.php) | `cache`, `cache_locks` | Cache framework Laravel |
 | 3 | [create_jobs_table.php](file:///v:/laragon/laragon/www/sil/database/migrations/0001_01_01_000002_create_jobs_table.php) | `jobs`, `job_batches`, `failed_jobs` | Queue jobs framework Laravel |
-| 4 | [create_departments_table.php](file:///v:/laragon/laragon/www/sil/database/migrations/2026_07_16_000001_create_departments_table.php) | `departments` | Data jurusan |
+| 4 | [create_departments_table.php](file:///v:/laragon/laragon/www/sil/database/migrations/2026_07_16_000001_create_departments_table.php) | `departments` | Data Prodi |
 | 5 | [create_students_table.php](file:///v:/laragon/laragon/www/sil/database/migrations/2026_07_16_000002_create_students_table.php) | `students` | Data mahasiswa |
 | 6 | [create_subjects_table.php](file:///v:/laragon/laragon/www/sil/database/migrations/2026_07_16_000003_create_subjects_table.php) | `subjects` | Data mata kuliah |
 | 7 | [create_courses_table.php](file:///v:/laragon/laragon/www/sil/database/migrations/2026_07_16_000004_create_courses_table.php) | `courses` | Course e-learning |
@@ -274,14 +274,14 @@ erDiagram
 ---
 
 ### 2. `departments`
-> Data jurusan / program studi.
+> Data Prodi / program studi.
 
 | Kolom | Tipe | Constraint | Keterangan |
 |-------|------|-----------|------------|
 | `id` | bigint | PK, AUTO_INCREMENT | Primary key |
-| `code` | varchar(255) | NOT NULL, UNIQUE | Kode jurusan (misal: TI, MI) |
-| `name` | varchar(255) | NOT NULL | Nama jurusan |
-| `head_of_department` | varchar(255) | NULLABLE | Nama ketua jurusan |
+| `code` | varchar(255) | NOT NULL, UNIQUE | Kode Prodi (misal: TI, MI) |
+| `name` | varchar(255) | NOT NULL | Nama Prodi |
+| `head_of_department` | varchar(255) | NULLABLE | Nama ketua Prodi |
 | `is_active` | boolean | NOT NULL, DEFAULT true | Status aktif |
 | `created_at` | timestamp | NULLABLE | — |
 | `updated_at` | timestamp | NULLABLE | — |
@@ -295,7 +295,7 @@ erDiagram
 |-------|------|-----------|------------|
 | `id` | bigint | PK, AUTO_INCREMENT | Primary key |
 | `user_id` | bigint | FK → `users.id`, CASCADE DELETE | Akun user terkait |
-| `department_id` | bigint | FK → `departments.id`, RESTRICT DELETE | Jurusan |
+| `department_id` | bigint | FK → `departments.id`, RESTRICT DELETE | Prodi |
 | `nim` | varchar(255) | NOT NULL, UNIQUE | Nomor Induk Mahasiswa |
 | `full_name` | varchar(255) | NOT NULL | Nama lengkap |
 | `email` | varchar(255) | NULLABLE | Email mahasiswa |
@@ -315,7 +315,7 @@ erDiagram
 | Kolom | Tipe | Constraint | Keterangan |
 |-------|------|-----------|------------|
 | `id` | bigint | PK, AUTO_INCREMENT | Primary key |
-| `department_id` | bigint | FK → `departments.id`, RESTRICT DELETE | Jurusan pemilik MK |
+| `department_id` | bigint | FK → `departments.id`, RESTRICT DELETE | Prodi pemilik MK |
 | `code` | varchar(255) | NOT NULL, UNIQUE | Kode mata kuliah |
 | `name` | varchar(255) | NOT NULL | Nama mata kuliah |
 | `credits` | int | NOT NULL, DEFAULT 2 | Jumlah SKS |

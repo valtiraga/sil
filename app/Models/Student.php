@@ -10,7 +10,7 @@ class Student extends Model
 {
     protected $fillable = [
         'user_id',
-        'department_id',
+        'study_program_id',
         'nim',
         'full_name',
         'email',
@@ -28,9 +28,9 @@ class Student extends Model
         return $this->belongsTo(User::class);
     }
 
-    public function department(): BelongsTo
+    public function studyProgram(): BelongsTo
     {
-        return $this->belongsTo(Department::class);
+        return $this->belongsTo(StudyProgram::class);
     }
 
     public function enrollments(): HasMany

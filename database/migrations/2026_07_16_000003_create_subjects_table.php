@@ -13,7 +13,7 @@ return new class extends Migration
     {
         Schema::create('subjects', function (Blueprint $table) {
             $table->id();
-            $table->foreignId('department_id')->constrained('departments')->restrictOnDelete();
+            $table->foreignId('study_program_id')->constrained('study_programs')->restrictOnDelete();
             $table->string('code')->unique();
             $table->string('name');
             $table->integer('credits')->default(2);

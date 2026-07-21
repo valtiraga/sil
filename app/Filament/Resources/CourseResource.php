@@ -63,7 +63,7 @@ class CourseResource extends Resource
                             ->relationship(
                                 'lecturer',
                                 'name',
-                                fn ($query) => $query->where('role', 'dosen')
+                                fn ($query) => $query->role('dosen')
                             )
                             ->required()
                             ->searchable()

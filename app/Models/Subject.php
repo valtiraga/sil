@@ -9,7 +9,7 @@ use Illuminate\Database\Eloquent\Relations\HasMany;
 class Subject extends Model
 {
     protected $fillable = [
-        'department_id',
+        'study_program_id',
         'code',
         'name',
         'credits',
@@ -27,9 +27,9 @@ class Subject extends Model
 
     // ─── Relationships ────────────────────────────────────
 
-    public function department(): BelongsTo
+    public function studyProgram(): BelongsTo
     {
-        return $this->belongsTo(Department::class);
+        return $this->belongsTo(StudyProgram::class);
     }
 
     public function courses(): HasMany

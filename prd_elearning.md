@@ -22,10 +22,10 @@ Politeknik APP Jakarta membutuhkan sistem e-learning terpadu untuk mengelola keg
 
 | Peran | Siapa | Yang Mereka Lakukan |
 |-------|-------|---------------------|
-| **Administrator** | Staf TI / Admin Akademik | Kelola seluruh data master (jurusan, mahasiswa, user, course, bank soal, mata kuliah), kelola hak akses pengguna |
+| **Administrator** | Staf TI / Admin Akademik | Kelola seluruh data master (Prodi, mahasiswa, user, course, bank soal, mata kuliah), kelola hak akses pengguna |
 | **Dosen** | Dosen pengampu mata kuliah | Upload materi (modul PDF, video), kelola bank soal, moderasi forum diskusi |
 | **Mahasiswa** | Mahasiswa aktif Politeknik APP Jakarta | Mengikuti course, download modul, memutar video, mengerjakan soal/kuis, aktif di forum diskusi |
-| **Pimpinan** | Direktur / Ketua Jurusan | Lihat dashboard dan laporan aktivitas e-learning — hanya baca |
+| **Pimpinan** | Direktur / Ketua Prodi | Lihat dashboard dan laporan aktivitas e-learning — hanya baca |
 
 ---
 
@@ -36,41 +36,41 @@ Politeknik APP Jakarta membutuhkan sistem e-learning terpadu untuk mengelola keg
 
 ---
 
-### Layanan 1 — Manajemen Data Jurusan
+### Layanan 1 — Manajemen Data Prodi
 
-**Deskripsi:** Pengelolaan data jurusan/program studi yang tersedia di Politeknik APP Jakarta. Data jurusan menjadi referensi utama untuk pengelompokan mahasiswa dan mata kuliah.
+**Deskripsi:** Pengelolaan data Prodi/program studi yang tersedia di Politeknik APP Jakarta. Data Prodi menjadi referensi utama untuk pengelompokan mahasiswa dan mata kuliah.
 
 **Alur:**
-1. Admin membuka menu Data Jurusan
-2. Admin menambahkan data jurusan baru (kode jurusan, nama jurusan, ketua jurusan)
-3. Admin dapat mengedit atau menghapus data jurusan yang sudah ada
-4. Data jurusan digunakan sebagai referensi di modul mahasiswa dan mata kuliah
+1. Admin membuka menu Data Prodi
+2. Admin menambahkan data Prodi baru (kode Prodi, nama Prodi, ketua Prodi)
+3. Admin dapat mengedit atau menghapus data Prodi yang sudah ada
+4. Data Prodi digunakan sebagai referensi di modul mahasiswa dan mata kuliah
 
-**Data yang dicatat:** kode jurusan · nama jurusan · ketua jurusan · status aktif/tidak aktif · tanggal dibuat
+**Data yang dicatat:** kode Prodi · nama Prodi · ketua Prodi · status aktif/tidak aktif · tanggal dibuat
 
 **Aturan bisnis:**
-- Kode jurusan bersifat **unik**, tidak boleh duplikat
-- Jurusan yang sudah memiliki mahasiswa atau mata kuliah terkait **tidak dapat dihapus**, hanya bisa dinonaktifkan
-- Nama jurusan wajib diisi, minimal **3 karakter**
+- Kode Prodi bersifat **unik**, tidak boleh duplikat
+- Prodi yang sudah memiliki mahasiswa atau mata kuliah terkait **tidak dapat dihapus**, hanya bisa dinonaktifkan
+- Nama Prodi wajib diisi, minimal **3 karakter**
 
 ---
 
 ### Layanan 2 — Manajemen Data Mahasiswa
 
-**Deskripsi:** Pengelolaan data mahasiswa aktif Politeknik APP Jakarta. Setiap mahasiswa terdaftar pada satu jurusan dan dapat mengikuti beberapa course mata kuliah.
+**Deskripsi:** Pengelolaan data mahasiswa aktif Politeknik APP Jakarta. Setiap mahasiswa terdaftar pada satu Prodi dan dapat mengikuti beberapa course mata kuliah.
 
 **Alur:**
 1. Admin membuka menu Data Mahasiswa
-2. Admin menambahkan data mahasiswa baru (NIM, nama, email, jurusan, angkatan)
+2. Admin menambahkan data mahasiswa baru (NIM, nama, email, Prodi, angkatan)
 3. Sistem otomatis membuat akun user untuk mahasiswa tersebut
 4. Admin dapat mengedit, menonaktifkan, atau mengekspor data mahasiswa
 5. Data mahasiswa terhubung ke enrollment course
 
-**Data yang dicatat:** NIM · nama lengkap · email · nomor telepon · jurusan · angkatan · semester aktif · status (aktif / cuti / lulus / DO) · foto profil
+**Data yang dicatat:** NIM · nama lengkap · email · nomor telepon · Prodi · angkatan · semester aktif · status (aktif / cuti / lulus / DO) · foto profil
 
 **Aturan bisnis:**
 - NIM bersifat **unik**, tidak boleh duplikat
-- Satu mahasiswa terdaftar pada **tepat satu jurusan**
+- Satu mahasiswa terdaftar pada **tepat satu Prodi**
 - Email mahasiswa harus **valid dan unik** dalam sistem
 - Mahasiswa dengan status **non-aktif** tidak dapat login ke sistem e-learning
 
@@ -100,20 +100,20 @@ Politeknik APP Jakarta membutuhkan sistem e-learning terpadu untuk mengelola keg
 
 ### Layanan 4 — Manajemen Data Mata Kuliah
 
-**Deskripsi:** Pengelolaan data mata kuliah yang tersedia pada setiap jurusan. Mata kuliah menjadi dasar pembuatan course dan forum diskusi.
+**Deskripsi:** Pengelolaan data mata kuliah yang tersedia pada setiap Prodi. Mata kuliah menjadi dasar pembuatan course dan forum diskusi.
 
 **Alur:**
 1. Admin membuka menu Data Mata Kuliah
-2. Admin menambahkan mata kuliah baru (kode MK, nama MK, SKS, jurusan, semester, dosen pengampu)
+2. Admin menambahkan mata kuliah baru (kode MK, nama MK, SKS, Prodi, semester, dosen pengampu)
 3. Admin dapat mengedit atau menonaktifkan mata kuliah
 4. Mata kuliah yang aktif dapat dibuatkan course e-learning
 5. Setiap mata kuliah otomatis memiliki forum diskusi terkait
 
-**Data yang dicatat:** kode mata kuliah · nama mata kuliah · jumlah SKS · jurusan · semester · dosen pengampu · status (aktif / tidak aktif) · deskripsi
+**Data yang dicatat:** kode mata kuliah · nama mata kuliah · jumlah SKS · Prodi · semester · dosen pengampu · status (aktif / tidak aktif) · deskripsi
 
 **Aturan bisnis:**
 - Kode mata kuliah bersifat **unik**
-- Satu mata kuliah terkait dengan **satu jurusan**
+- Satu mata kuliah terkait dengan **satu Prodi**
 - Satu mata kuliah memiliki minimal **satu dosen pengampu**
 - Mata kuliah yang sudah memiliki course aktif **tidak dapat dihapus**, hanya dinonaktifkan
 
@@ -193,12 +193,12 @@ Politeknik APP Jakarta membutuhkan sistem e-learning terpadu untuk mengelola keg
 
 | Informasi | Keterangan |
 |-----------|------------|
-| Total Mahasiswa Aktif | Jumlah mahasiswa dengan status aktif di seluruh jurusan |
+| Total Mahasiswa Aktif | Jumlah mahasiswa dengan status aktif di seluruh Prodi |
 | Total Course Aktif | Jumlah course yang sedang berjalan (status aktif) |
 | Total Enrollment Bulan Ini | Jumlah enrollment baru mahasiswa pada course dalam bulan berjalan |
 | Aktivitas Forum Terkini | Jumlah topik dan balasan diskusi 7 hari terakhir |
 | Progress Rata-rata Mahasiswa | Persentase rata-rata penyelesaian course oleh mahasiswa |
-| Statistik per Jurusan | Jumlah mahasiswa, mata kuliah, dan course per jurusan |
+| Statistik per Prodi | Jumlah mahasiswa, mata kuliah, dan course per Prodi |
 
 ### Laporan Berkala
 
@@ -206,7 +206,7 @@ Politeknik APP Jakarta membutuhkan sistem e-learning terpadu untuk mengelola keg
 |---------|-----------|-----|--------|
 | Rekap Enrollment | Bulanan | Jumlah mahasiswa enrolled per course per bulan | Excel & PDF |
 | Progress Pembelajaran | Bulanan | Persentase penyelesaian course per mahasiswa per mata kuliah | Excel & PDF |
-| Statistik Mahasiswa per Jurusan | Semesteran | Jumlah mahasiswa aktif, cuti, lulus per jurusan | PDF |
+| Statistik Mahasiswa per Prodi | Semesteran | Jumlah mahasiswa aktif, cuti, lulus per Prodi | PDF |
 | Aktivitas Forum Diskusi | Bulanan | Jumlah topik, reply, mahasiswa aktif per forum mata kuliah | Excel & PDF |
 | Rekap Bank Soal | Semesteran | Jumlah soal per mata kuliah per tipe dan tingkat kesulitan | Excel |
 
@@ -218,7 +218,7 @@ Politeknik APP Jakarta membutuhkan sistem e-learning terpadu untuk mengelola keg
 > - Setiap **data yang dicatat** → kolom-kolom pada tabel yang bersangkutan
 > - Setiap **aturan bisnis** → validasi dan business logic di Model/Controller
 > - Bagian 3 → widget dashboard Filament + fitur ekspor PDF/Excel
-> - **Tabel utama:** `jurusan`, `mahasiswa`, `users`, `mata_kuliah`, `courses`, `course_contents` (modul & video), `enrollments`, `bank_soal`, `forum_topics`, `forum_replies`
-> - **Relasi:** jurusan → mahasiswa (1:M), jurusan → mata_kuliah (1:M), mata_kuliah → courses (1:M), courses → course_contents (1:M), courses ↔ mahasiswa via enrollments (M:M), mata_kuliah → bank_soal (1:M), mata_kuliah → forum_topics (1:M), forum_topics → forum_replies (1:M)
+> - **Tabel utama:** `Prodi`, `mahasiswa`, `users`, `mata_kuliah`, `courses`, `course_contents` (modul & video), `enrollments`, `bank_soal`, `forum_topics`, `forum_replies`
+> - **Relasi:** Prodi → mahasiswa (1:M), Prodi → mata_kuliah (1:M), mata_kuliah → courses (1:M), courses → course_contents (1:M), courses ↔ mahasiswa via enrollments (M:M), mata_kuliah → bank_soal (1:M), mata_kuliah → forum_topics (1:M), forum_topics → forum_replies (1:M)
 
 ---

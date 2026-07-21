@@ -2,8 +2,8 @@
 
 namespace App\Filament\Resources;
 
-use App\Filament\Resources\DepartmentResource\Pages;
-use App\Models\Department;
+use App\Filament\Resources\StudyProgramResource\Pages;
+use App\Models\StudyProgram;
 use Filament\Forms;
 use Filament\Schemas\Schema;
 use Filament\Resources\Resource;
@@ -11,9 +11,9 @@ use Filament\Tables;
 use Filament\Tables\Table;
 use Filament\Schemas\Components\Section;
 
-class DepartmentResource extends Resource
+class StudyProgramResource extends Resource
 {
-    protected static ?string $model = Department::class;
+    protected static ?string $model = StudyProgram::class;
 
     protected static string | \BackedEnum | null $navigationIcon = 'heroicon-o-building-office';
 
@@ -26,43 +26,43 @@ class DepartmentResource extends Resource
 
     public static function getNavigationLabel(): string
     {
-        return __('nav.department');
+        return __('nav.study_program');
     }
 
     public static function getModelLabel(): string
     {
-        return __('nav.department.label');
+        return __('nav.study_program.label');
     }
 
     public static function getPluralModelLabel(): string
     {
-        return __('nav.department.plural');
+        return __('nav.study_program.plural');
     }
 
     public static function form(Schema $schema): Schema
     {
         return $schema
             ->schema([
-                Section::make(__('dept.section_info'))
+                Section::make(__('study_program.section_info'))
                     ->schema([
                         Forms\Components\TextInput::make('code')
-                            ->label(__('dept.code'))
+                            ->label(__('study_program.code'))
                             ->required()
                             ->unique(ignoreRecord: true)
                             ->maxLength(20)
-                            ->placeholder(__('dept.code_placeholder')),
+                            ->placeholder(__('study_program.code_placeholder')),
 
                         Forms\Components\TextInput::make('name')
-                            ->label(__('dept.name'))
+                            ->label(__('study_program.name'))
                             ->required()
                             ->minLength(3)
                             ->maxLength(255)
-                            ->placeholder(__('dept.name_placeholder')),
+                            ->placeholder(__('study_program.name_placeholder')),
 
-                        Forms\Components\TextInput::make('head_of_department')
-                            ->label(__('dept.head'))
+                        Forms\Components\TextInput::make('head_of_study_program')
+                            ->label(__('study_program.head'))
                             ->maxLength(255)
-                            ->placeholder(__('dept.head_placeholder')),
+                            ->placeholder(__('study_program.head_placeholder')),
 
                         Forms\Components\Toggle::make('is_active')
                             ->label(__('common.active_status'))
@@ -81,21 +81,21 @@ class DepartmentResource extends Resource
                     ->sortable(),
 
                 Tables\Columns\TextColumn::make('name')
-                    ->label(__('dept.name'))
+                    ->label(__('study_program.name'))
                     ->searchable()
                     ->sortable(),
 
-                Tables\Columns\TextColumn::make('head_of_department')
-                    ->label(__('dept.head'))
+                Tables\Columns\TextColumn::make('head_of_study_program')
+                    ->label(__('study_program.head'))
                     ->searchable(),
 
                 Tables\Columns\TextColumn::make('students_count')
-                    ->label(__('dept.student_count'))
+                    ->label(__('study_program.student_count'))
                     ->counts('students')
                     ->sortable(),
 
                 Tables\Columns\TextColumn::make('subjects_count')
-                    ->label(__('dept.subject_count'))
+                    ->label(__('study_program.subject_count'))
                     ->counts('subjects')
                     ->sortable(),
 
@@ -132,9 +132,9 @@ class DepartmentResource extends Resource
     public static function getPages(): array
     {
         return [
-            'index' => Pages\ListDepartments::route('/'),
-            'create' => Pages\CreateDepartment::route('/create'),
-            'edit' => Pages\EditDepartment::route('/{record}/edit'),
+            'index' => Pages\ListStudyPrograms::route('/'),
+            'create' => Pages\CreateStudyProgram::route('/create'),
+            'edit' => Pages\EditStudyProgram::route('/{record}/edit'),
         ];
     }
 }

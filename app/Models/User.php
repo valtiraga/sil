@@ -10,11 +10,12 @@ use Illuminate\Database\Eloquent\Relations\HasMany;
 use Illuminate\Database\Eloquent\Relations\HasOne;
 use Illuminate\Foundation\Auth\User as Authenticatable;
 use Illuminate\Notifications\Notifiable;
+use Spatie\Permission\Traits\HasRoles;
 
 class User extends Authenticatable implements FilamentUser
 {
     /** @use HasFactory<UserFactory> */
-    use HasFactory, Notifiable;
+    use HasFactory, Notifiable, HasRoles;
 
     /**
      * The attributes that are mass assignable.
@@ -25,7 +26,6 @@ class User extends Authenticatable implements FilamentUser
         'name',
         'email',
         'password',
-        'role',
         'is_active',
         'last_login_at',
     ];
@@ -76,17 +76,17 @@ class User extends Authenticatable implements FilamentUser
 
     public function isAdmin(): bool
     {
-        return $this->role === 'admin';
+        return $this->hasRole('super_admin') || $this->hasRole('admin');
     }
 
     public function isDosen(): bool
     {
-        return $this->role === 'dosen';
+        return $this->hasRole('dosen');
     }
 
     public function isMahasiswa(): bool
     {
-        return $this->role === 'mahasiswa';
+        return $this->hasRole('mahasiswa');
     }
 
     // ─── Relationships ────────────────────────────────────

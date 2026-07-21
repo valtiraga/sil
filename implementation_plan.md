@@ -3,7 +3,7 @@
 ## Background
 
 Berdasarkan PRD dan feedback user, sistem e-learning ini memiliki **3 panel terpisah**:
-- **Admin** (`/admin`) — Menyiapkan data master (jurusan, mata kuliah, user), membuat course, dan meng-assign dosen
+- **Admin** (`/admin`) — Menyiapkan data master (Prodi, mata kuliah, user), membuat course, dan meng-assign dosen
 - **Dosen** (`/dosen`) — Mengelola course yang di-assign, enroll mahasiswa, kelola konten & bank soal, buat kuis, lihat nilai, moderasi forum
 - **Mahasiswa** (`/mahasiswa`) — Mengikuti course, akses materi, mengerjakan kuis, forum diskusi
 
@@ -17,7 +17,7 @@ Berdasarkan PRD dan feedback user, sistem e-learning ini memiliki **3 panel terp
 ```mermaid
 flowchart TD
     A[Admin] -->|Buat & assign| C[Course + Dosen]
-    A -->|Kelola| D[Jurusan, Mata Kuliah, Users]
+    A -->|Kelola| D[Prodi, Mata Kuliah, Users]
     
     DS[Dosen] -->|Kelola course di-assign| E[Konten: PDF & Video]
     DS -->|Enroll| M[Mahasiswa]
@@ -37,8 +37,8 @@ flowchart TD
 ```mermaid
 erDiagram
     users ||--o| mahasiswa : "has profile"
-    jurusan ||--o{ mahasiswa : "has many"
-    jurusan ||--o{ mata_kuliah : "has many"
+    Prodi ||--o{ mahasiswa : "has many"
+    Prodi ||--o{ mata_kuliah : "has many"
     mata_kuliah ||--o{ courses : "has many"
     users ||--o{ courses : "dosen assigned"
     courses ||--o{ course_contents : "has many"
@@ -67,7 +67,7 @@ erDiagram
         timestamp last_login_at
     }
 
-    jurusan {
+    Prodi {
         bigint id PK
         string kode UK
         string nama

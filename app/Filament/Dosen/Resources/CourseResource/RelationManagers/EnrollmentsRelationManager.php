@@ -50,8 +50,8 @@ class EnrollmentsRelationManager extends RelationManager
                     ->searchable()
                     ->sortable(),
                     
-                Tables\Columns\TextColumn::make('student.department.name')
-                    ->label(__('common.department'))
+                Tables\Columns\TextColumn::make('student.studyProgram.name')
+                    ->label(__('common.study_program'))
                     ->sortable(),
 
                 Tables\Columns\TextColumn::make('enrolled_at')

@@ -67,9 +67,9 @@ class StudentResource extends Resource
                             ->tel()
                             ->maxLength(20),
 
-                        Forms\Components\Select::make('department_id')
-                            ->label(__('common.department'))
-                            ->relationship('department', 'name')
+                        Forms\Components\Select::make('study_program_id')
+                            ->label(__('common.study_program'))
+                            ->relationship('studyProgram', 'name')
                             ->required()
                             ->searchable()
                             ->preload(),
@@ -125,8 +125,8 @@ class StudentResource extends Resource
                     ->searchable()
                     ->sortable(),
 
-                Tables\Columns\TextColumn::make('department.name')
-                    ->label(__('common.department'))
+                Tables\Columns\TextColumn::make('studyProgram.name')
+                    ->label(__('common.study_program'))
                     ->sortable(),
 
                 Tables\Columns\TextColumn::make('enrollment_year')
@@ -160,9 +160,9 @@ class StudentResource extends Resource
                     ->toggleable(isToggledHiddenByDefault: true),
             ])
             ->filters([
-                Tables\Filters\SelectFilter::make('department_id')
-                    ->label(__('common.department'))
-                    ->relationship('department', 'name'),
+                Tables\Filters\SelectFilter::make('study_program_id')
+                    ->label(__('common.study_program'))
+                    ->relationship('studyProgram', 'name'),
 
                 Tables\Filters\SelectFilter::make('status')
                     ->label(__('common.status'))
